@@ -1,3 +1,4 @@
+// noinspection EqualityComparisonWithCoercionJS
 export default class Webcam {
     constructor(webcamElement, facingMode = 'user', canvasElement = null, snapSoundElement = null) {
       this._webcamElement = webcamElement;
@@ -47,17 +48,16 @@ export default class Webcam {
 
     /* Get media constraints */
     getMediaConstraints() {
-        var videoConstraints = {};
+        const videoConstraints = {};
         if (this._selectedDeviceId == '') {
             videoConstraints.facingMode =  this._facingMode;
         } else {
             videoConstraints.deviceId = { exact: this._selectedDeviceId};
         }
-        var constraints = {
+        return {
             video: videoConstraints,
             audio: false
         };
-        return constraints;
     }
 
     /* Select camera based on facingMode */ 
@@ -174,8 +174,7 @@ export default class Webcam {
         }
         context.clearRect(0, 0, this._canvasElement.width, this._canvasElement.height);
         context.drawImage(this._webcamElement, 0, 0, this._canvasElement.width, this._canvasElement.height);
-        let data = this._canvasElement.toDataURL('image/png');
-        return data;
+          return this._canvasElement.toDataURL('image/png');
       }
       else{
         throw "canvas element is missing";
